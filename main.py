@@ -7,14 +7,20 @@ st.markdown("""
     <style>
         /* Background and App Styling */
         .stApp {
-            background-color: #f0f4ff;
+            background-color: #5A7EC7; /* Adjusted to a medium blue */
             color: #0a1931;
         }
         /* Title Styling */
         .title {
-            font-size: 32px;
+            font-size: 40px;
             font-weight: bold;
-            color: #0a1931;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            font-size: 22px;
+            color: #ffffff;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -52,7 +58,8 @@ length_options = ["Short", "Medium", "Long"]
 language_options = ["English", "Hinglish"]
 
 # App Title
-st.markdown('<div class="title">🚀 BrandBoost - AI-Powered LinkedIn Post Generator</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">🚀 BrandBoost</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">AI-Powered LinkedIn Post Generator</div>', unsafe_allow_html=True)
 
 # Layout for Inputs
 fs = FewShotPosts()
@@ -79,3 +86,4 @@ if st.button("✨ Generate Post"):
 
     # Copy Button
     st.button("📋 Copy to Clipboard", key="copy_button")
+
