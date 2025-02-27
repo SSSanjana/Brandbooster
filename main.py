@@ -1,17 +1,14 @@
 import streamlit as st
-import pyperclip
 from few_shot import FewShotPosts
 from post_generator import generate_post
 
-# Custom Styling
+# Custom Styling for UI
 st.markdown("""
     <style>
-        /* Background and App Styling */
         .stApp {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: #ffffff;
         }
-        /* Title Styling */
         .title-container {
             text-align: center;
             margin-bottom: 20px;
@@ -30,7 +27,6 @@ st.markdown("""
             font-family: 'Lora', serif;
             color: #e0e0e0;
         }
-        /* Dropdown and Button Styling */
         .stSelectbox, .stButton > button {
             border-radius: 10px;
         }
@@ -47,7 +43,6 @@ st.markdown("""
         .stButton > button:hover {
             background-color: #c92a2a;
         }
-        /* Output Box */
         .output-box {
             background-color: #ffffff;
             padding: 15px;
@@ -56,8 +51,22 @@ st.markdown("""
             margin-top: 20px;
             font-size: 18px;
             color: #0a1931;
-            border-left: 5px solid #ffffff;
             font-family: 'Lora', serif;
+            border-left: 5px solid #ffffff;
+        }
+        .copy-button {
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .copy-button:hover {
+            background-color: #218838;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -87,16 +96,30 @@ with col3:
     selected_language = st.selectbox("🗣️ Language", options=language_options)
 
 # Generate Button with Spinner
+post = ""
 if st.button("✨ Generate Post"):
     with st.spinner("Generating your LinkedIn post..."):
         post = generate_post(selected_length, selected_language, selected_tag)
 
-    # Display the Generated Post Inside a Box
-    st.markdown("**Copy this post:**")
-    st.code(post, language="markdown")  # Use `st.code` for clean formatting
+# Display Generated Post and Copy Button
+if post:
+    st.markdown("### Copy this post:")
+    st.code(post, language="text")
 
-    # Copy to Clipboard Button
-    if st.button("📋 Copy to Clipboard"):
-        pyperclip.copy(post)
-        st.success("Copied to clipboard!")
+    # JavaScript to copy text
+    copy_script = f"""
+        <script>
+            function copyToClipboard() {{
+                var text = `{post}`;
+                navigator.clipboard.writeText(text).then(function() {{
+                    alert("Copied to clipboard!");
+                }}, function(err) {{
+                    console.error('Failed to copy: ', err);
+                }});
+            }}
+        </script>
+        <button class="copy-button" onclick="copyToClipboard()">📋 Copy to Clipboard</button>
+    """
 
+    # Render Copy Button
+    st.markdown(copy_script, unsafe_allow_html=True)
