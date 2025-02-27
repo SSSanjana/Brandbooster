@@ -88,6 +88,9 @@ if st.button("✨ Generate Post"):
     with st.spinner("Generating your LinkedIn post..."):
         post = generate_post(selected_length, selected_language, selected_tag)
     
+    # Display the heading outside the box
+    st.markdown("## Here is a LinkedIn post on Influencer Marketing:")
+
     # Display the Generated Post Inside a Box
     st.markdown(f'<div class="output-box">{post}</div>', unsafe_allow_html=True)
 
