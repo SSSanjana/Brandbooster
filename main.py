@@ -7,22 +7,27 @@ st.markdown("""
     <style>
         /* Background and App Styling */
         .stApp {
-            background-color: #5A7EC7; /* Adjusted to a medium blue */
-            color: #0a1931;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #ffffff;
         }
         /* Title Styling */
-        .title {
-            font-size: 40px;
-            font-weight: bold;
-            color: #ffffff;
+        .title-container {
             text-align: center;
-            margin-bottom: 5px;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 42px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         .subtitle {
             font-size: 22px;
-            color: #ffffff;
-            text-align: center;
-            margin-bottom: 20px;
+            font-weight: 500;
+            font-family: 'Lora', serif;
+            color: #e0e0e0;
         }
         /* Dropdown and Button Styling */
         .stSelectbox, .stButton > button {
@@ -35,6 +40,8 @@ st.markdown("""
             border: none;
             padding: 10px 20px;
             transition: 0.3s ease-in-out;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
         }
         .stButton > button:hover {
             background-color: #c92a2a;
@@ -44,11 +51,12 @@ st.markdown("""
             background-color: #ffffff;
             padding: 15px;
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(10, 25, 49, 0.2);
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
             margin-top: 20px;
             font-size: 18px;
             color: #0a1931;
-            border-left: 5px solid #0a1931;
+            border-left: 5px solid #ffffff;
+            font-family: 'Lora', serif;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -58,8 +66,7 @@ length_options = ["Short", "Medium", "Long"]
 language_options = ["English", "Hinglish"]
 
 # App Title
-st.markdown('<div class="title">🚀 BrandBoost</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">AI-Powered LinkedIn Post Generator</div>', unsafe_allow_html=True)
+st.markdown('<div class="title-container"><div class="title">🚀 BrandBoost</div><div class="subtitle">AI-Powered LinkedIn Post Generator</div></div>', unsafe_allow_html=True)
 
 # Layout for Inputs
 fs = FewShotPosts()
@@ -80,10 +87,11 @@ with col3:
 if st.button("✨ Generate Post"):
     with st.spinner("Generating your LinkedIn post..."):
         post = generate_post(selected_length, selected_language, selected_tag)
-
+    
     # Display the Generated Post Inside a Box
     st.markdown(f'<div class="output-box">{post}</div>', unsafe_allow_html=True)
 
     # Copy Button
     st.button("📋 Copy to Clipboard", key="copy_button")
+
 
