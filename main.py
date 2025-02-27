@@ -1,4 +1,5 @@
 import streamlit as st
+import pyperclip
 from few_shot import FewShotPosts
 from post_generator import generate_post
 
@@ -58,21 +59,6 @@ st.markdown("""
             border-left: 5px solid #ffffff;
             font-family: 'Lora', serif;
         }
-        /* Copy Button */
-        .copy-btn {
-            background-color: #28a745;
-            color: white;
-            font-weight: bold;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .copy-btn:hover {
-            background-color: #218838;
-        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -101,31 +87,16 @@ with col3:
     selected_language = st.selectbox("🗣️ Language", options=language_options)
 
 # Generate Button with Spinner
-post = None
 if st.button("✨ Generate Post"):
     with st.spinner("Generating your LinkedIn post..."):
         post = generate_post(selected_length, selected_language, selected_tag)
 
-# Display the Generated Post Inside a Box
-if post:
-    st.markdown(f'<div class="output-box">{post}</div>', unsafe_allow_html=True)
+    # Display the Generated Post Inside a Box
+    st.markdown("**Copy this post:**")
+    st.code(post, language="markdown")  # Use `st.code` for clean formatting
 
-    # Hidden Text Area to Hold the Post for Copying
-    st.text_area("Copy this post:", post, key="post_text")
-
-    # Copy Button with JavaScript
-    st.markdown("""
-        <button class="copy-btn" onclick="copyToClipboard()">📋 Copy to Clipboard</button>
-        <script>
-            function copyToClipboard() {
-                var text = document.getElementById("post_text").value;
-                navigator.clipboard.writeText(text).then(() => {
-                    alert("Copied to clipboard!");
-                }).catch(err => {
-                    console.error("Failed to copy:", err);
-                });
-            }
-        </script>
-    """, unsafe_allow_html=True)
-
+    # Copy to Clipboard Button
+    if st.button("📋 Copy to Clipboard"):
+        pyperclip.copy(post)
+        st.success("Copied to clipboard!")
 
