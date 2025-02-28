@@ -94,5 +94,4 @@ if st.button("✨ Generate Post"):
     # Display only the Generated Post Inside a Box
     st.markdown(f'<div class="output-box">{post}</div>', unsafe_allow_html=True)
 
-    # Copy Button
-    st.button("📋 Copy to Clipboard", key="copy_button")
+   
